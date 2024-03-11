@@ -25,6 +25,10 @@ class Payment
     #[ORM\Column]
     private ?int $participantId = null;
 
+    #[ORM\OneToOne(inversedBy: 'payment', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Participant $participant = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -74,6 +78,18 @@ class Payment
     public function setParticipantId(int $participantId): static
     {
         $this->participantId = $participantId;
+
+        return $this;
+    }
+
+    public function getParticipant(): ?Participant
+    {
+        return $this->participant;
+    }
+
+    public function setParticipant(Participant $participant): static
+    {
+        $this->participant = $participant;
 
         return $this;
     }

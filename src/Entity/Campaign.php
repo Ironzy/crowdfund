@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CampaignRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -31,6 +33,14 @@ class Campaign
 
     #[ORM\Column(length: 150, nullable: true)]
     private ?string $name = null;
+
+    #[ORM\ManyToMany(targetEntity: Participant::class, mappedBy: 'campaign')]
+    private Collection $participants;
+
+    public function __construct()
+    {
+        $this->participants = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -105,6 +115,33 @@ class Campaign
     public function setName(?string $name): static
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Participant>
+     */
+    public function getParticipants(): Collection
+    {
+        return $this->participants;
+    }
+
+    public function addParticipant(Participant $participant): static
+    {
+        if (!$this->participants->contains($participant)) {
+            $this->participants->add($participant);
+            $participant->addCampaign($this);
+        }
+
+        return $this;
+    }
+
+    public function removeParticipant(Participant $participant): static
+    {
+        if ($this->participants->removeElement($participant)) {
+            $participant->removeCampaign($this);
+        }
 
         return $this;
     }

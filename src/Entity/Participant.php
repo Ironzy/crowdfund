@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ParticipantRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ParticipantRepository::class)]
@@ -19,8 +21,17 @@ class Participant
     #[ORM\Column(length: 200, nullable: true)]
     private ?string $email = null;
 
-    #[ORM\Column(length: 32)]
-    private ?string $campaignId = null;
+    #[ORM\ManyToMany(targetEntity: Campaign::class, inversedBy: 'participants')]
+    private Collection $campaign;
+
+    #[ORM\OneToOne(mappedBy: 'participant', cascade: ['persist', 'remove'])]
+    private ?Payment $payment = null;
+
+    public function __construct()
+    {
+        $this->campaign = new ArrayCollection();
+    }
+
 
     public function getId(): ?int
     {
@@ -51,15 +62,45 @@ class Participant
         return $this;
     }
 
-    public function getCampaignId(): ?string
+    /**
+     * @return Collection<int, Campaign>
+     */
+    public function getCampaign(): Collection
     {
-        return $this->campaignId;
+        return $this->campaign;
     }
 
-    public function setCampaignId(string $campaignId): static
+    public function addCampaign(Campaign $campaign): static
     {
-        $this->campaignId = $campaignId;
+        if (!$this->campaign->contains($campaign)) {
+            $this->campaign->add($campaign);
+        }
 
         return $this;
     }
+
+    public function removeCampaign(Campaign $campaign): static
+    {
+        $this->campaign->removeElement($campaign);
+
+        return $this;
+    }
+
+    public function getPayment(): ?Payment
+    {
+        return $this->payment;
+    }
+
+    public function setPayment(Payment $payment): static
+    {
+        // set the owning side of the relation if necessary
+        if ($payment->getParticipant() !== $this) {
+            $payment->setParticipant($this);
+        }
+
+        $this->payment = $payment;
+
+        return $this;
+    }
+
 }
