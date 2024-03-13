@@ -31,7 +31,7 @@ class CampaignController extends AbstractController
     #[Route('/show/{slug}', name: 'app_show')]
     public function show($slug): Response
     {
-        $campaign = $this->entityManager->getRepository(Campaign::class)->findOneBy(['name' => $slug]);
+        $campaign = $this->entityManager->getRepository(Campaign::class)->findOneBy(['title' => $slug]);
         if(!$campaign){
             throw $this->createNotFoundException(
                 'No campagne found for Campagne Name : '.$slug
@@ -39,7 +39,7 @@ class CampaignController extends AbstractController
         }
         
         $participants = $campaign->getParticipants();
-        dd($participants);
+        //dd($participants);
 
         /** Show the campaign */
         return $this->render('campaign/show.html.twig', [

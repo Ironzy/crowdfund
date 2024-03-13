@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\PaymentRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PaymentRepository::class)]
 class Payment
@@ -14,6 +15,7 @@ class Payment
     private ?int $id = null;
 
     #[ORM\Column(nullable: true)]
+    #[Assert\NotBlank]
     private ?int $amount = null;
 
     #[ORM\Column(nullable: true)]
@@ -23,6 +25,7 @@ class Payment
     private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank]
     private ?int $participantId = null;
 
     #[ORM\OneToOne(inversedBy: 'payment', cascade: ['persist', 'remove'])]
@@ -93,4 +96,18 @@ class Payment
 
         return $this;
     }
+
+    /** To Do */
+    #[ORM\PrePersist]
+    public function setCreatedAtValue()
+    {
+        $this->createdAt = new \DateTimeImmutable();
+        
+    }
+
+    public function setUpdatedAtValue()
+    {
+        $this->updatedAt = new \DateTimeImmutable();
+    }
+
 }
