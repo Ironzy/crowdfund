@@ -29,26 +29,44 @@ class CampaignController extends AbstractController
     }
     
     #[Route('/show/{slug}', name: 'app_show')]
-    public function show(): Response
+    public function show($slug): Response
     {
+        $campaign = $this->entityManager->getRepository(Campaign::class)->findOneBy(['name' => $slug]);
+        if(!$campaign){
+            throw $this->createNotFoundException(
+                'No campagne found for Campagne Name : '.$slug
+            );
+        }
+        
+        $participants = $campaign->getParticipants();
+        dd($participants);
+
+        /** Show the campaign */
         return $this->render('campaign/show.html.twig', [
-            'controller_name' => 'CampaignController',
+            'title' => $campaign->getTitle(),
+            'name' => $campaign->getName(),
+            'content' => $campaign->getContent(),
+            'goal' => $campaign->getGoal(),
+            'participants' => $campaign->getParticipants(),
         ]);
     }
 
     #[Route('/create', name: 'app_create')]
-    public function create(Request $request, CampaignRepository $campaignRepository): Response
+    public function create(Request $request): Response
     {
         
-        //build form
+        /** build form **/
         $campaign = new Campaign();
         $form = $this->createForm(CampaignType::class, $campaign);
 
-        //handle form submission
+        /** handle form submission **/
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
 
             $this->entityManager->persist($campaign);
+
+            /** To Do: check for spam befor flushing **/
+
             $this->entityManager->flush();
 
             return $this->redirectToRoute('app_show', ['slug'=> $campaign->getName()]);

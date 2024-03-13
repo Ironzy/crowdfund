@@ -54,10 +54,10 @@
                 <form>
                     <div class="input-field col s12">
                         <label for="description">Description</label>
-                        <textarea id="description" class="materialize-textarea" readonly="readonly">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam scelerisque id nunc nec volutpat. Etiam pellentesque tristique arcu, non consequat magna fermentum ac. Cras ut ultricies eros. Maecenas eros justo.</textarea>
+                        <textarea id="description" class="materialize-textarea" readonly="readonly">{{ content }}</textarea>
                     </div>
                     <div class="input-field col s12 l6">
-                        <input id="goal" type="number" readonly="readonly" value="500">
+                        <input id="goal" type="number" readonly="readonly" value="{{ goal }}">
                         <label for="goal">Objectif</label>
                     </div>
                     <div class="col s12 l6 offset-l3">
