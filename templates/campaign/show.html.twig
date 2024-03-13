@@ -1,0 +1,82 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}{% endblock %}
+{% block parallax %} {% endblock %}
+
+{% block customContent %}
+
+    <!-- Show progress -->
+    <section class="progress-section">
+        <div class="progress">
+            <div class="determinate" style="width: 70%"><span>70% de l'objectif</span></div>
+        </div>
+    </section>
+
+    <div class="container participe">
+        <div class="section">
+            <!-- Participation section -->
+            <div class="row">
+                <div class="card col s12 m12 l8 offset-l2">
+                    <div class="card-content">
+                        <div class="input-field col s12 l6">
+                            <input id="mount" type="number" class="validate">
+                            <label for="mount">Votre participation</label>
+                        </div>
+                        <a href="{{ path('app_payment') }}" class="btn-large waves-effect waves-light pink lighten-1 col s12 l6">Participer</a>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12 center">
+                    <h4>A propos de la campagne</h4>
+                </div>
+            </div>
+            <!--   Icon Section   -->
+            <div class="row">
+                <div class="col s12 m6 l3 offset-l3">
+                    <div class="icon-block center">
+                        <div class="btn-large btn-floating white"><i class="material-icons teal-text">person</i></div>
+                        <h3 class="center">12</h3>
+                        <p class="light">Participants</p>
+                    </div>
+                </div>
+
+                <div class="col s12 m6 l3">
+                    <div class="icon-block center">
+                        <div class="btn-large btn-floating white"><i class="material-icons teal-text">redeem</i></div>
+                        <h3 class="center">220</h3>
+                        <p class="light">euros récoltés</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Form section -->
+            <div class="row">
+                <form>
+                    <div class="input-field col s12">
+                        <label for="description">Description</label>
+                        <textarea id="description" class="materialize-textarea" readonly="readonly">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam scelerisque id nunc nec volutpat. Etiam pellentesque tristique arcu, non consequat magna fermentum ac. Cras ut ultricies eros. Maecenas eros justo.</textarea>
+                    </div>
+                    <div class="input-field col s12 l6">
+                        <input id="goal" type="number" readonly="readonly" value="500">
+                        <label for="goal">Objectif</label>
+                    </div>
+                    <div class="col s12 l6 offset-l3">
+                        <button class="btn btn-large waves-effect waves-light col s12" type="submit" name="action">
+                            Modifiez la campagne
+                            <i class="material-icons right">edit</i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <!-- List -->
+            {{ block("participantList", "participant/index.html.twig") }}
+        </div>
+    </div>
+    
+{% endblock %}
+
+{% block commentCaMarche %}{% endblock %}
+
+{% block lesCampDuMoment %}{% endblock %}
+
+{% block javascripts %}{% endblock %}

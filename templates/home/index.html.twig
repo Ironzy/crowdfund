@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}{% endblock %}
+
+{% block parallax %}
+
+    <div class="parallax-container hero-banner valign-wrapper">
+        <div class="section no-pad-bot">
+            <div class="container">
+                <div class="hide-on-med-and-down">
+                    <h1 class="header center white-text light">Un cadeau commun à organiser?</h1>
+                    <div class="row center">
+                        <h5 class="header col s12 light">Anniversaire, pot de départ, crémaillère... N'avancez plus les frais !</h5>
+                    </div>
+                </div>
+                <div class="hide-on-large-only">
+                    <div class="row center">
+                        <h5 class="header col s12 light">Un cadeau commun à organiser ?</h5>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="card col s12 m12 l8 offset-l2">
+                        <div class="card-content">
+                            <form action="{{ path('app_create') }}" method="post">
+                                <div class="input-field col s12 l8">
+                                    <input required id="cag_name" type="text" name="cag_name" class="validate">
+                                    <label for="cag_name">Nommez votre nouvelle campagne</label>
+                                </div>
+                                <button type="submit" class="btn-large waves-effect waves-light pink lighten-1 col s12 l4">Valider</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <br><br>
+
+            </div>
+        </div>
+        <div class="parallax"><img src="{{ asset('images/11.jpg') }}" alt="Anniversaire, pot de départ, crémaillère... N'avancez plus les frais !"></div>
+    </div>
+
+{% endblock %}
+
+{% block parallaxTitreCamp %} {% endblock %}
+
+{% block customContent %}{% endblock %}
+
+{% block javascripts %}{% endblock %}

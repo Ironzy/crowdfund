@@ -37,6 +37,9 @@ class Campaign
     #[ORM\ManyToMany(targetEntity: Participant::class, mappedBy: 'campaign')]
     private Collection $participants;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $email = null;
+
     public function __construct()
     {
         $this->participants = new ArrayCollection();
@@ -142,6 +145,18 @@ class Campaign
         if ($this->participants->removeElement($participant)) {
             $participant->removeCampaign($this);
         }
+
+        return $this;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(?string $email): static
+    {
+        $this->email = $email;
 
         return $this;
     }

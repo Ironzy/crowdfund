@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{% block parallax %}{% endblock %}
+
+{% block customContent %}
+
+    <div class="container">
+        <div class="section">
+            <div class="row">
+                <div class="col s12 center">
+                    <h4>Participez en quelques secondes</h4>
+                </div>
+            </div>
+            <!--   Form Section   -->
+            <div class="card">
+                <div class="card-content">
+                    <div class="row">
+                        <form>
+                            <h5 class="center">Votre identité</h5>
+                            <div class="input-field col s12 l6">
+                                <input id="email" type="email" class="validate">
+                                <label for="email">Votre Email</label>
+                            </div>
+                            <div class="input-field col s12 l6">
+                                <input id="mount" type="number" class="validate">
+                                <label for="mount">Votre participation</label>
+                            </div>
+                            <p>
+                                <label>
+                                    <input type="checkbox" />
+                                    <span>Masquer mon identité auprès des autres participants</span>
+                                </label>
+                            </p>
+                            <p>
+                                <label>
+                                    <input type="checkbox" />
+                                    <span>Masquer le montant de ma participation auprès des autres participants</span>
+                                </label>
+                            </p>
+                            <div class="clearfix"></div>
+                            <h5 class="center">Paiement</h5>
+                            <div class="input-field col s12">
+                                <input id="card_name" type="text" class="validate">
+                                <label for="card_name">Nom sur la carte</label>
+                            </div>
+                            <div class="input-field col s12">
+                                <input id="card_number" type="text" class="validate">
+                                <label for="card_number">Numéro de la carte</label>
+                            </div>
+                            <div class="input-field col s12 l8">
+                                <input id="card_expiration_date" type="date" class="validate">
+                                <label for="card_expiration_date">Date d'expiration</label>
+                            </div>
+                            <div class="input-field col s12 l4">
+                                <input id="card_cvv" type="text" class="validate">
+                                <label for="card_cvv">CVV</label>
+                            </div>
+                            <div class="input-field col s12 l6">
+                                <a href="#!" class="btn btn-large waves-effect waves-light grey col s12">Annuler</a>
+                            </div>
+                            <div class="input-field col s12 l6">
+                                <button class="btn btn-large waves-effect waves-light pink lighten-1 col s12" type="submit" name="action">
+                                    Participer
+                                    <i class="material-icons right">euro_symbol</i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block parallaxCamp %}{% endblock %}
+
+{% block lesCampDuMoment %}{% endblock %}

@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+
+{% block parallax %}
+
+    <div class="parallax-container valign-wrapper">
+        <div class="section no-pad-bot">
+            <div class="container">
+                <div class="hide-on-med-and-down">
+                    <h1 class="header center white-text light">Un cadeau commun à organiser?</h1>
+                    <div class="row center">
+                        <h5 class="header col s12 light">Anniversaire, pot de départ, crémaillère... N'avancez plus les frais !</h5>
+                    </div>
+                </div>
+                <div class="hide-on-large-only">
+                    <div class="row center">
+                        <h5 class="header col s12 light">Un cadeau commun à organiser ?</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="parallax"><img src="{{ asset('images/11.jpg') }}" alt="Anniversaire, pot de départ, crémaillère... N'avancez plus les frais !"></div>
+    </div>
+
+{% endblock %}
+
+{% block parallaxTitreCamp %} {% endblock %}
+
+{% block customContent %}
+
+    <div class="container">
+        <div class="section">
+            <div class="row">
+                <div class="col s12 center">
+                    <h4>Créez votre campagne maintenant</h4>
+                </div>
+            </div>
+            <!--   Form Section   -->
+            <div class="card">
+                <div class="card-content">
+                    <div class="row">
+
+                        {{ form(create_form) }}
+                        <!--form>
+                            <div class="input-field col s12 l6">
+                                <input id="author" type="text" class="validate">
+                                <label for="author">Votre Nom</label>
+                            </div>
+                            <div class="input-field col s12 l6">
+                                <input id="email" type="email" class="validate">
+                                <label for="email">Votre Email</label>
+                            </div>
+                            <div class="input-field col s12 l8">
+                                <input id="title" type="text" value="" class="validate">
+                                <label for="title">Titre de votre campagne</label>
+                            </div>
+                            <div class="input-field col s12">
+                                <textarea id="description" class="materialize-textarea" placeholder="Décrivez à vos amis pourquoi vous faites une campagne"></textarea>
+                            </div>
+                            <div class="input-field col s12 l6">
+                                <input id="goal" type="number" class="validate">
+                                <label for="goal">Votre objectif en euros</label>
+                            </div>
+                            <button class="btn btn-large waves-effect waves-light pink lighten-1 col s12" style="margin-top: 20px;" type="submit" name="action">
+                                Validez la campagne
+                                <i class="material-icons right">send</i>
+                            </button>
+                        </form-->
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    
+{% endblock %}
+
+{% block parallaxCamp %}{% endblock %}
+
+{% block lesCampDuMoment %}{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        var simplemde = new SimpleMDE({ element: document.getElementById("description") });
+    </script>
+{% endblock %}
