@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Campaign;
 use App\Form\CampaignType;
 use App\Repository\CampaignRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Egulias\EmailValidator\Parser\CommentStrategy\CommentStrategy;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,7 +15,11 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class CampaignController extends AbstractController
 {
-    
+    public function __construct(
+        private EntityManagerInterface $entityManager,
+    ){   
+    }
+
     #[Route('/campaign', name: 'app_campaign')]
     public function campaign(): Response
     {
@@ -23,7 +28,7 @@ class CampaignController extends AbstractController
         ]);
     }
     
-    #[Route('/show', name: 'app_show')]
+    #[Route('/show/{slug}', name: 'app_show')]
     public function show(): Response
     {
         return $this->render('campaign/show.html.twig', [
@@ -40,8 +45,14 @@ class CampaignController extends AbstractController
         $form = $this->createForm(CampaignType::class, $campaign);
 
         //handle form submission
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
 
-        //handle requests
+            $this->entityManager->persist($campaign);
+            $this->entityManager->flush();
+
+            return $this->redirectToRoute('app_show', ['slug'=> $campaign->getName()]);
+        }
 
         return $this->render('campaign/create.html.twig', [
             'create_form' => $form,

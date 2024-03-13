@@ -18,19 +18,19 @@ class CampaignType extends AbstractType
         $builder
             ->add('title')
             ->add('content')
-            ->add('createdAt', null, [
-                'widget' => 'single_text',
-            ])
-            ->add('updatedAt', null, [
-                'widget' => 'single_text',
-            ])
+            //->add('createdAt', null, [
+            //    'widget' => 'single_text',
+           // ])
+            //->add('updatedAt', null, [
+              //  'widget' => 'single_text',
+           // ])
             ->add('goal')
             ->add('name')
-            ->add('participants', EntityType::class, [
+           /* ->add('participants', EntityType::class, [
                 'class' => Participant::class,
                 'choice_label' => 'id',
                 'multiple' => true,
-            ])
+            ])*/
             ->add('email', EmailType::class)
             ->add('submit', SubmitType::class)
         ;
