@@ -15,7 +15,7 @@ class PaymentType extends AbstractType
     {
         $builder
             ->add('amount')
-            ->add('createdAt', null, [
+           /* ->add('createdAt', null, [
                 'widget' => 'single_text',
             ])
             ->add('updatedAt', null, [
@@ -25,7 +25,7 @@ class PaymentType extends AbstractType
             ->add('participant', EntityType::class, [
                 'class' => Participant::class,
                 'choice_label' => 'id',
-            ])
+            ])*/
         ;
     }
 

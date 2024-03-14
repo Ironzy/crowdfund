@@ -4,11 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Campaign;
 use App\Entity\Participant;
-use App\Entity\Payment;
-use App\Form\PaymentType;
+use App\Form\ParticipantType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\BrowserKit\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -33,7 +31,7 @@ class PaymentController extends AbstractController
 
         /** build form **/
         $participant = new Participant();
-        $form = $this->createForm(Participant::class, $participant);
+        $form = $this->createForm(ParticipantType::class, $participant);
 
         /** handle form submission **/
     
