@@ -34,7 +34,7 @@ class CampaignController extends AbstractController
         $campaign = $this->entityManager->getRepository(Campaign::class)->findOneBy(['title' => $slug]);
         if(!$campaign){
             throw $this->createNotFoundException(
-                'No campagne found for Campagne Name : '.$slug
+                'No campaign found for Campagne Name : '.$slug
             );
         }
         
@@ -65,7 +65,7 @@ class CampaignController extends AbstractController
 
             $this->entityManager->persist($campaign);
 
-            /** To Do: check for spam befor flushing **/
+            /** To Do: check for spam before flushing **/
 
             $this->entityManager->flush();
 

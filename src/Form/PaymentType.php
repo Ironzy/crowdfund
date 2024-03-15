@@ -2,10 +2,10 @@
 
 namespace App\Form;
 
-use App\Entity\Participant;
 use App\Entity\Payment;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -14,8 +14,9 @@ class PaymentType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('participant', ParticipantType::class)
             ->add('amount')
-           /* ->add('createdAt', null, [
+            /**->add('createdAt', null, [
                 'widget' => 'single_text',
             ])
             ->add('updatedAt', null, [
@@ -26,6 +27,7 @@ class PaymentType extends AbstractType
                 'class' => Participant::class,
                 'choice_label' => 'id',
             ])*/
+            ->add('Submit', SubmitType::class)
         ;
     }
 

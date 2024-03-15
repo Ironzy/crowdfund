@@ -38,7 +38,7 @@ class Campaign
     #[ORM\Column(length: 150, nullable: true)]
     private ?string $name = null;
 
-    #[ORM\ManyToMany(targetEntity: Participant::class, mappedBy: 'campaign')]
+    #[ORM\ManyToMany(targetEntity: Participant::class, mappedBy: 'campaign', cascade: ['persist', 'remove'])]
     private Collection $participants;
 
     #[ORM\Column(length: 255, nullable: true)]

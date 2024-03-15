@@ -15,4 +15,9 @@ class ParticipantController extends AbstractController
             'controller_name' => 'ParticipantController',
         ]);
     }
+
+    public function addParticipant(){
+
+
+    }
 }

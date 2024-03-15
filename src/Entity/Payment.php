@@ -25,7 +25,6 @@ class Payment
     private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\Column]
-    #[Assert\NotBlank]
     private ?int $participantId = null;
 
     #[ORM\OneToOne(inversedBy: 'payment', cascade: ['persist', 'remove'])]

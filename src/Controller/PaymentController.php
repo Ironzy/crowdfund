@@ -4,11 +4,18 @@ namespace App\Controller;
 
 use App\Entity\Campaign;
 use App\Entity\Participant;
+use App\Entity\Payment;
 use App\Form\ParticipantType;
+use App\Form\PaymentType;
+use App\Repository\CampaignRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Validator\Constraints\Regex;
+
+//require_once('vendor/autoload.php');
 
 class PaymentController extends AbstractController
 {
@@ -19,21 +26,36 @@ class PaymentController extends AbstractController
     }
 
     #[Route('/payment/{slug}', name: 'app_payment')]
-    public function index($slug): Response
+    public function index(Request $request, $slug, CampaignRepository $campaignRepository): Response
     {
-        $campaign = new Campaign();
-        $campaign = $this->entityManager->getRepository(Campaign::class)->findOneBy(['title' => $slug]);
+        // get data about the campaign being paid for
+        $campaign = $campaignRepository->findOneBy(['title' => $slug]);
         if(!$campaign){
             throw $this->createNotFoundException(
                 'No campagne found for Campagne Name : '.$slug
             );
         }
 
-        /** build form **/
-        $participant = new Participant();
-        $form = $this->createForm(ParticipantType::class, $participant);
+        /** build form for payment **/
+        $payment = new Payment();
+        $form = $this->createForm(PaymentType::class, $payment);
+        /** handle form request */
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            // Stripe
 
-        /** handle form submission **/
+
+            //create a participant and add payment for the participant
+            $campaign->addParticipant($payment->getParticipant());
+            $this->entityManager->persist($campaign);
+            $this->entityManager->persist($payment);
+
+            //flush
+            $this->entityManager->flush();
+        }
+
+        //$payment->setParticipant($participant);
+        //$participa
     
 
         return $this->render('payment/index.html.twig', [
