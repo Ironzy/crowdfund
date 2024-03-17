@@ -31,6 +31,12 @@ class Payment
     #[ORM\JoinColumn(nullable: false)]
     private ?Participant $participant = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $paymentStatus = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $sessionId = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -107,6 +113,30 @@ class Payment
     public function setUpdatedAtValue()
     {
         $this->updatedAt = new \DateTimeImmutable();
+    }
+
+    public function getPaymentStatus(): ?string
+    {
+        return $this->paymentStatus;
+    }
+
+    public function setPaymentStatus(string $paymentStatus): static
+    {
+        $this->paymentStatus = $paymentStatus;
+
+        return $this;
+    }
+
+    public function getSessionId(): ?string
+    {
+        return $this->sessionId;
+    }
+
+    public function setSessionId(string $sessionId): static
+    {
+        $this->sessionId = $sessionId;
+
+        return $this;
     }
 
 }
