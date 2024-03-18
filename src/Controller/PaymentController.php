@@ -2,25 +2,17 @@
 
 namespace App\Controller;
 
-use App\Entity\Campaign;
-use App\Entity\Participant;
 use App\Entity\Payment;
-use App\Form\ParticipantType;
 use App\Form\PaymentType;
 use App\Repository\CampaignRepository;
 use App\Repository\PaymentRepository;
-use App\stripePay;
-use DateTime;
+use App\StripePay;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Mapping\Id;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Validator\Constraints\Regex;
-
-//require_once('vendor/autoload.php');
 
 class PaymentController extends AbstractController
 {
@@ -37,7 +29,7 @@ class PaymentController extends AbstractController
      * Redirect to stripe checkout pay
      */
     #[Route('/payment/{slug}', name: 'app_payment')]
-    public function index(Request $request, $slug, CampaignRepository $campaignRepository, stripePay $stripe): Response
+    public function payment(Request $request, $slug, CampaignRepository $campaignRepository, StripePay $stripe): Response
     {
         // get data about the campaign being paid for
         $campaign = $campaignRepository->findOneBy(['title' => $slug]);
@@ -57,9 +49,7 @@ class PaymentController extends AbstractController
             //set user payment session
             $today = new \DateTimeImmutable();
             $today = $today->format("H:i:s.v");
-
             $session = new Session();
-
             $sessionId = $session->getId();
             $sessionId = $sessionId.$today;
             $session->set('sessionId', $sessionId);
@@ -77,6 +67,7 @@ class PaymentController extends AbstractController
             $campaign->addParticipant($payment->getParticipant());
             $this->entityManager->persist($campaign);
 
+            //set the sessionId and paymentStatus for Payment Entity
             $payment
                 ->setSessionId($sessionId)
                 ->setPaymentStatus('not paid')
@@ -88,29 +79,59 @@ class PaymentController extends AbstractController
 
         }
 
+        $status = '';
+
+        if($paymentStatus = $request->query->get('payment')){
+
+            if($paymentStatus === 'paid'){
+
+                $message = 'Thank you for your generosity !';
+            }else if($paymentStatus === 'failed'){
+
+                $message = 'Sorry, your payment was not successful';
+            }   
+        }
+
         return $this->render('payment/index.html.twig', [
             'payment_form' => $form,
             'name' => $campaign->getName(),
             'title' => $campaign->getTitle(),
+            'paymentStatus' => $message,
         ]);
     }
 
     /** returned after payment on stripe */
     #[Route('/payment', name: 'app_payment_success')]
-    public function payment(Request $request, Payment $payment){
+    public function payment_stripe(Request $request, PaymentRepository $paymentRepository){
 
-        if($status = $request->query->get('status')){
+        if($request->query->get('status') && $campaignTitle = $request->query->get('campagne')){
 
-            $status = 'Failed';
             //message to user
-            dd($status);
+            return $this->redirectToRoute('app_payment', ['slug'=>$campaignTitle, 'payment'=>'failed']);
+            
         }else{
 
-            if($sessionId = $request->query->get('payment')){
+            if($sessionId = $request->query->get('payment') && $campaignTitle = $request->query->get('campagne')){
 
                 //update status in Payment
+                $payment = $paymentRepository->findOneBy(['sessionId' => $sessionId]);
 
-                dd($sessionId);
+                if(!$payment){
+
+                    throw $this->createNotFoundException(
+                        'Payment not found'
+                    );
+                }
+
+                $payment
+                    ->setPaymentStatus('paid')
+                    ->setUpdatedAtValue()
+                ;
+                
+                $this->entityManager->flush();
+
+                return $this->redirectToRoute('app_payment', ['slug'=>$campaignTitle, 'payment'=>'paid']);
+               
             }
         }
          

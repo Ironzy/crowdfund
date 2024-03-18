@@ -2,20 +2,20 @@
 
 namespace App;
 
-use Symfony\Component\DependencyInjection\Attribute\Autowire;
-use Symfony\Component\HttpFoundation\Session\Session;
+//use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
-class stripePay
+class StripePay
 {
     private $stripe;
     private $stripeKey;
 
     public function __construct(
-        #[Autowire('%env(STRIPE_KEY)%')] string $stripeKey,
+        //#[Autowire('%env(STRIPE_KEY)%')] string $stripeKey,
     ){
 
-        $this->stripe = new \Stripe\StripeClient($stripeKey);
-        $this->stripeKey = $stripeKey;
+        $this->stripeKey = $_ENV['STRIPE_KEY'];
+        $this->stripe = new \Stripe\StripeClient($this->stripeKey);
+        //$stripeKey;
     }
 
     public function stripe_create_price(int $price, string $campaignTitle){
@@ -38,7 +38,7 @@ class stripePay
         \Stripe\Stripe::setApiKey($this->stripeKey);
 
         //create checkout session
-        $myUrl = 'https://127.0.0.1:8000/';
+        $myUrl = $_ENV['DOMAIN'];
         $checkoutSession = \Stripe\Checkout\Session::create([
             'line_items' => [[
               'price' => $price->id,
@@ -46,7 +46,7 @@ class stripePay
             ]],
             'mode' => 'payment',
             'success_url' => $myUrl . "payment?payment=$sessionId",
-            'cancel_url' => $myUrl . "payment?payment=$sessionId&status=canceled",
+            'cancel_url' => $myUrl . "payment?campagne=$campaignTitle&payment=$sessionId&status=canceled",
         ]);
 
           

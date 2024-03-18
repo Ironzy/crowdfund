@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CampaignRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Campaign
 {
     #[ORM\Id]
@@ -167,7 +168,6 @@ class Campaign
         return $this;
     }
 
-     /** To Do */
     #[ORM\PrePersist]
     public function setCreatedAtValue()
     {

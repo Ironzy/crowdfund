@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PaymentRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Payment
 {
     #[ORM\Id]
@@ -102,7 +103,6 @@ class Payment
         return $this;
     }
 
-    /** To Do */
     #[ORM\PrePersist]
     public function setCreatedAtValue()
     {

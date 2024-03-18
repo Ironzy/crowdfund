@@ -2,8 +2,25 @@
 
 {% block parallax %}{% endblock %}
 
-{% block customContent %}
+{% block status %}
 
+    {% if paymentStatus %}
+        <div id="myModal" class="modal">
+            <!-- Modal content -->
+            <div class="modal-content">
+                <div class="alert alert-success" role="alert">
+                    <h4 class="alert-heading center">{{ paymentStatus }}</h4>
+                    <!--p>Aww yeah, you successfully read this important alert message. This example text is going to run a bit longer so that you can see how spacing within an alert works with this kind of content.</p>
+                    <hr>
+                    <p class="mb-0">Whenever you need to, be sure to use margin utilities to keep things nice and tidy.</p-->
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+{% endblock %}
+
+{% block customContent %}
     <div class="container">
         <div class="section">
             <div class="row">
@@ -75,6 +92,25 @@
 
 {% endblock %}
 
+{% block modal %}
+
+{% endblock %}
+
 {% block parallaxCamp %}{% endblock %}
 
 {% block lesCampDuMoment %}{% endblock %}
+
+{% block javascripts %}
+    <script>
+
+        var status = '{{ paymentStatus }}';
+        if(status){
+            $(document).ready(function(){
+                var instance = M.Modal.getInstance($('#myModal'));
+                instance.open();
+            });
+
+        }
+        
+    </script>
+{% endblock %}

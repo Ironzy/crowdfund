@@ -6,12 +6,10 @@ use App\Entity\Campaign;
 use App\Form\CampaignType;
 use App\Repository\CampaignRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Egulias\EmailValidator\Parser\CommentStrategy\CommentStrategy;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class CampaignController extends AbstractController
 {
@@ -29,9 +27,9 @@ class CampaignController extends AbstractController
     }
     
     #[Route('/show/{slug}', name: 'app_show')]
-    public function show($slug): Response
+    public function show($slug, CampaignRepository $campaignRepository): Response
     {
-        $campaign = $this->entityManager->getRepository(Campaign::class)->findOneBy(['title' => $slug]);
+        $campaign = $campaignRepository->findOneBy(['title' => $slug]);
         if(!$campaign){
             throw $this->createNotFoundException(
                 'No campaign found for Campagne Name : '.$slug
