@@ -52,10 +52,11 @@ class CampaignController extends AbstractController
     #[Route('/create', name: 'app_create')]
     public function create(Request $request): Response
     {
-        
+        $cagName = $request->request->get('cag_name');
         /** build form **/
         $campaign = new Campaign();
         $form = $this->createForm(CampaignType::class, $campaign);
+        $form->get('title')->setData($cagName);
 
         /** handle form submission **/
         $form->handleRequest($request);
@@ -72,6 +73,7 @@ class CampaignController extends AbstractController
 
         return $this->render('campaign/create.html.twig', [
             'create_form' => $form,
+            'cag_name' => $cagName,
         ]);
 
 
